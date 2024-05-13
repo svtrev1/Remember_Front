@@ -5,7 +5,7 @@
   <div class="page-container">
       <Header/>
     <main class="page-main">
-      <Topics/>
+      <router-view/>
     </main>
       <Footer/>
   </div>
@@ -16,12 +16,15 @@
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import Topics from './components/Topics.vue';
+import Words from './components/Words.vue';
+
 
 export default {
   components: {
     Header,
     Footer,
-    Topics
+    Topics,
+    Words
   }
 };
 </script>
@@ -34,18 +37,12 @@ export default {
   background-image: url('./assets/background.jpg');
   background-size: cover;
   background-position: center;
-
 }
-
 .page-main {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  
-
 }
-
-
 </style>
 
