@@ -41,8 +41,10 @@ export default {
 .page-main {
   flex: 1;
   display: flex;
+  overflow: auto;
   justify-content: center;
   align-items: center;
+  min-height: 0;
 }
 </style>
 

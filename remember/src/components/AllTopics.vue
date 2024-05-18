@@ -1,43 +1,68 @@
 <template>
-    <h2>Все темы:</h2>
+  <div class="topics-container">
+    <div class="title">Все темы:</div>
     <ul class="topics">
     <li v-for="topic in topics" :key="topic.id" class="topic-item">
         <router-link :to="{ name: 'Words', params: { topicId: topic.id }}" class="topic-link">
         <div class="topic-name">{{ topic.name.toUpperCase() }}</div>
+        <div class="user-name">({{ users[topic.id] }})</div>
         <div class="word-count">{{ counts[topic.id-1] }} words</div>
       </router-link>
       </li>
     </ul>
-
+  </div>
   </template>
   
   <script>
   import { onMounted, ref} from 'vue';
   import { useRouter } from 'vue-router';
-  import { getAllTopics, getWordCount } from '../api.js';
+  import { getAllTopics, getWordCount, getUserById } from '../api.js';
   
   export default {
     setup() {
       const topics = ref([]);
       const counts = ref([]);
+      const users = ref ({});
+      
       const router = useRouter();
       onMounted(async () => {
         topics.value = await getAllTopics(1);
         for (const topic of topics.value) {
             counts.value.push(await getWordCount(topic.id));
+            users.value[topic.id] = await getUserById(topic.user_id);
         }
       });
       const selectCategory = (topic) => {
       router.push({ name: 'Words', params: { topicId: topic.id } });
     };
 
-      return { topics, counts, selectCategory};
+      return { topics, counts, selectCategory, users, getUserById};
     }
   };
   </script>
 
   
   <style>
+
+.topics-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 40px;
+  color: #d87093;
+  font-weight: 800;
+  text-shadow: 3px 3px 3px white;
+  }
+
   .topics {
     display: flex;
     flex-wrap: wrap;
